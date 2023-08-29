@@ -12,12 +12,21 @@ public class Porterias : NetworkBehaviour
         {
             Debug.Log("Le metieron al azul alv");
             coreManager.singleton.SumarScoresServerRPC(0);
+            DespawnRecovery(this.gameObject);
         }
 
         if (other.gameObject.name == "PorteriaRoja")
         {
             Debug.Log("Le metieron al rojo alv");
             coreManager.singleton.SumarScoresServerRPC(1);
+            DespawnRecovery(this.gameObject);
         }
+    }
+
+    void DespawnRecovery(GameObject ball)
+    {
+        Debug.Log("Este es ball: " + ball);
+        ball.GetComponent<BallScript>().TakeBall();
+        MovPlayer.instance.DespawnBallServerRPC(ball);
     }
 }

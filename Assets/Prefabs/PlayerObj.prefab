@@ -71,15 +71,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7fe31a3e44c47240a42167d1a00e7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  rotationLerpSpeed: 2
+  speed: 8
+  secondSpawn: 5
+  rotationLerpSpeed: 2.5
   ballPrefab: {fileID: 5226711969936198897, guid: 64e69fab374fe804f8805daad2511ef4, type: 3}
-  txtScore1: {fileID: 0}
-  txtScore2: {fileID: 0}
-  scoreN1:
-    m_InternalValue: 0
-  scoreN2:
-    m_InternalValue: 0
 --- !u!136 &-2948013768387415267
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -133,7 +128,7 @@ SphereCollider:
   m_GameObject: {fileID: 7247673996281269869}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.3
   m_Center: {x: 0, y: 0, z: 0}

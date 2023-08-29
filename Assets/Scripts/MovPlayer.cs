@@ -6,32 +6,39 @@ using TMPro;
 
 public class MovPlayer : NetworkBehaviour
 {
-    public float speed;
+    public static MovPlayer instance;
+    public float speed,secondSpawn;
     public float rotationLerpSpeed;
     public GameObject ballPrefab;
 
-    int score1;
+    /*int score1;
     int score2;
 
     public TMP_Text txtScore1, txtScore2;
 
     public NetworkVariable<int> scoreN1 = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public NetworkVariable<int> scoreN2 = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> scoreN2 = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);*/
 
     private void Awake()
     {
         Debug.Log("OnAwake");
+        instance = this;
     }
 
     void Start()
     {
         Debug.Log("OnStart");
 
-        txtScore1 = GameObject.Find("Score1").GetComponent<TMP_Text>();
+        if (secondSpawn <= 0)
+        {
+            secondSpawn = 5;
+        }
+
+        /*txtScore1 = GameObject.Find("Score1").GetComponent<TMP_Text>();
         txtScore2 = GameObject.Find("Score2").GetComponent<TMP_Text>();
 
         txtScore1.text = "Score = " + scoreN1.Value.ToString();
-        txtScore2.text = "Score = " + scoreN2.Value.ToString();
+        txtScore2.text = "Score = " + scoreN2.Value.ToString();*/
     }
 
     public override void OnNetworkSpawn()
@@ -70,10 +77,10 @@ public class MovPlayer : NetworkBehaviour
         }
 
         //Pruebas
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             AddScore();
-        }
+        }*/
     }
 
     IEnumerator gameRain()
@@ -95,7 +102,7 @@ public class MovPlayer : NetworkBehaviour
         
         if (other.gameObject.tag == "Pelota")
         {
-            AddScore();
+            //AddScore();
             //other.gameObject.GetComponent<NetworkObject>().NetworkHide(OwnerClientId);
             //Destroy(other.gameObject);
 
