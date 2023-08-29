@@ -91,7 +91,7 @@ public class MovPlayer : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsOwner) return; //si no es el admin no va a hacer nada UN SALUDO A LA GRASAAAAAAAAAAAAAAAAA
+        if (!IsOwner) return; 
         
         if (other.gameObject.tag == "Pelota")
         {
@@ -99,9 +99,9 @@ public class MovPlayer : NetworkBehaviour
             //other.gameObject.GetComponent<NetworkObject>().NetworkHide(OwnerClientId);
             //Destroy(other.gameObject);
 
-            other.gameObject.GetComponent<BallScript>().TakeBall();
+            //other.gameObject.GetComponent<BallScript>().TakeBall();
 
-            DespawnBallServerRPC(other.gameObject);
+            //DespawnBallServerRPC(other.gameObject);
         }
     }
 
@@ -109,29 +109,18 @@ public class MovPlayer : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        CambiarOwnerDePelotaServerRPC(collision.gameObject, OwnerClientId);
+        Debug.Log("Collision");
+
+        if (collision.gameObject.tag == "Pelota")
+        {
+            Debug.Log("Ball Collision" + OwnerClientId);
+            CambiarOwnerDePelotaServerRPC(collision.gameObject, OwnerClientId);
+        }        
     }
 
     public void AddScore()
     {
-        Debug.Log("Add Score");
-        /*if (OwnerClientId == 0)
-        {
-            //score1++;
-            //txtScore1.text = "Score = " + score1.ToString();
-
-            scoreN1.Value++;
-            txtScore1.text = "Score = " + scoreN1.Value.ToString();
-        }
-        else if (OwnerClientId == 1)
-        {
-            //score2++;
-            //txtScore2.text = "Score = " + score2.ToString();
-
-            scoreN2.Value++;
-            txtScore2.text = "Score = " + scoreN2.Value.ToString();
-        }*/
-
+        //Debug.Log("Add Score");
         coreManager.singleton.SumarScoresServerRPC((ulong)OwnerClientId);
     }
 
@@ -177,6 +166,7 @@ public class MovPlayer : NetworkBehaviour
     [ServerRpc]
     public void CambiarOwnerDePelotaServerRPC(NetworkObjectReference ball, ulong newClientId)
     {
+        Debug.Log("si entra y ball es: " + ball);
         ((GameObject)ball).GetComponent<NetworkObject>().ChangeOwnership(newClientId);
     }
 }

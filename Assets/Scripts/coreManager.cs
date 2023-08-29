@@ -38,6 +38,27 @@ public class coreManager : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void SumarScoresServerRPC(int player) // 1 rojo, 0 azul
+    {
+        Debug.Log("Servidor _ Anoto jugador: " + player);
+
+        if (player == 0)
+        {
+            //azul
+            scoreN1.Value++;
+            //txtScore1.text = "Score = " + scoreN1.Value.ToString();
+            ActualizarScoreClientRPC();
+        }
+        else if (player == 1)
+        {
+            //rojo
+            scoreN2.Value++;
+            //txtScore2.text = "Score = " + scoreN2.Value.ToString();
+            ActualizarScoreClientRPC();
+        }
+    }
+
     [ClientRpc]
     void ActualizarScoreClientRPC()
     {
