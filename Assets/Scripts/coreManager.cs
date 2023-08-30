@@ -14,6 +14,8 @@ public class coreManager : NetworkBehaviour
 
     public static coreManager singleton;
 
+    public chatScript chatscrpt;
+
     private void Awake()
     {
         singleton = this;
@@ -64,5 +66,20 @@ public class coreManager : NetworkBehaviour
     {
         txtScore1.text = "Score = " + scoreN1.Value.ToString();
         txtScore2.text = "Score = " + scoreN2.Value.ToString();
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    public void MandarTextoChatServerRpc(string text,ulong player)
+    {
+        MandarTextoChatClientRpc(text,player);
+    }
+
+    [ClientRpc]
+    public void MandarTextoChatClientRpc(string text,ulong player)
+    {
+        if (!IsOwner)
+        {
+            chatscrpt.EscribitText2(text,player);
+        }
     }
 }
