@@ -16,6 +16,23 @@ public class coreManager : NetworkBehaviour
 
     public chatScript chatscrpt;
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        ActualizarScoreClientRPC();
+        NetworkManager.Singleton.OnClientConnectedCallback += GameStart;
+    }
+
+    public void GameStart(ulong playerId)
+    {
+        Debug.Log("Player conectado: " + playerId);
+        if (playerId >= 1)
+        {
+            StartCoroutine(NetworkManager.Singleton.ConnectedClients[0].PlayerObject.gameObject.GetComponent<MovPlayer>().gameRain());
+        }
+    }
+
+
     private void Awake()
     {
         singleton = this;
@@ -82,4 +99,5 @@ public class coreManager : NetworkBehaviour
             chatscrpt.EscribitText2(text,player);
         }
     }
+
 }

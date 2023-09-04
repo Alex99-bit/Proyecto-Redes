@@ -52,7 +52,7 @@ public class MovPlayer : NetworkBehaviour
         if(IsServer)
         {
             Debug.Log("IsServer");
-            StartCoroutine(gameRain());
+            //StartCoroutine(gameRain());
         }
 
         int x = UnityEngine.Random.Range(0, 7);
@@ -83,7 +83,7 @@ public class MovPlayer : NetworkBehaviour
         }*/
     }
 
-    IEnumerator gameRain()
+    public IEnumerator gameRain()
     {
         yield return null;
         while(true)
@@ -110,6 +110,7 @@ public class MovPlayer : NetworkBehaviour
 
             //DespawnBallServerRPC(other.gameObject);
         }
+        CambiarOwnerDePelotaServerRPC(other.gameObject, OwnerClientId);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -121,8 +122,15 @@ public class MovPlayer : NetworkBehaviour
         if (collision.gameObject.tag == "Pelota")
         {
             Debug.Log("Ball Collision" + OwnerClientId);
-            CambiarOwnerDePelotaServerRPC(collision.gameObject, OwnerClientId);
-        }        
+            //CambiarOwnerDePelotaServerRPC(collision.gameObject, OwnerClientId);
+        }
+        
+
+        if (collision.gameObject.tag == "Spike")
+        {
+            Debug.Log("Spike collision " + OwnerClientId);
+            // Restar score
+        }
     }
 
     public void AddScore()

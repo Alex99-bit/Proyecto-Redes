@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class chatScript : NetworkBehaviour
 {
@@ -19,7 +20,7 @@ public class chatScript : NetworkBehaviour
 
     public void EscribirText(string newText)
     {
-        if (!IsOwner) { return; }
+        /*if (!IsOwner) { return; }
 
         current += "\nPlayer " + OwnerClientId + ": " + newText;
         chat_text.text = current;
@@ -29,15 +30,34 @@ public class chatScript : NetworkBehaviour
 
         coreManager.singleton.MandarTextoChatServerRpc(newText,OwnerClientId);
         // Ensure the scroll adjustment happens in the next frame
-        //StartCoroutine(ScrollToBottom());
+        //StartCoroutine(ScrollToBottom());*/
+
+        if (!IsOwner) return;
+
+        current += "\n" + "Player " + OwnerClientId + ": " + newText;
+
+        chat_text.text = current;
+
+        scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+
+        coreManager.singleton.MandarTextoChatServerRpc(newText, OwnerClientId);
     }
 
     public void EscribitText2(string newText, ulong player)
     {
-        if (!IsOwner) { return; }
+        /*if (!IsOwner) { return; }
         current += "\nPlayer " + player + ": " + newText;
         chat_text.text = current;
-        scroll.verticalNormalizedPosition = 0;
+        scroll.verticalNormalizedPosition = 0;*/
+        if (!IsOwner) return;
+
+        current += "\n" + "Player " + OwnerClientId + ": " + newText;
+
+        chat_text.text = current;
+
+        scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+
+        coreManager.singleton.MandarTextoChatServerRpc(newText, OwnerClientId);
     }
 
     /* Test */
