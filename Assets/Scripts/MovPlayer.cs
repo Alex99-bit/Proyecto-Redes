@@ -9,7 +9,8 @@ public class MovPlayer : NetworkBehaviour
     public static MovPlayer instance;
     public float speed,secondSpawn;
     public float rotationLerpSpeed;
-    public GameObject ballPrefab;
+    public GameObject ballPrefab,spikePrefab;
+    int rand;
     public int vida;
 
     /*int score1;
@@ -78,6 +79,7 @@ public class MovPlayer : NetworkBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rota, rotationLerpSpeed);
         }
 
+        
         //Pruebas
         /*if (Input.GetKeyDown(KeyCode.E))
         {
@@ -92,9 +94,19 @@ public class MovPlayer : NetworkBehaviour
         {
             int x = Random.Range(-10, 10);
             int z = Random.Range(-10, 10);
-            GameObject ballInstance = Instantiate(ballPrefab, new Vector3(x, 10, z), Quaternion.identity);
-            ballInstance.GetComponent<NetworkObject>().Spawn();
-            yield return new WaitForSecondsRealtime(2);
+            rand = Mathf.RoundToInt(Random.Range(1, 15));
+            if (rand % 2 == 0)
+            {
+                GameObject ballInstance = Instantiate(ballPrefab, new Vector3(x, 10, z), Quaternion.identity);
+                ballInstance.GetComponent<NetworkObject>().Spawn();
+            }
+            else
+            {
+                GameObject spikeInstance = Instantiate(spikePrefab, new Vector3(x, 10, z), Quaternion.identity);
+                spikeInstance.GetComponent<NetworkObject>().Spawn();
+            }
+            
+            yield return new WaitForSecondsRealtime(5);
         }
     }
 
@@ -135,7 +147,7 @@ public class MovPlayer : NetworkBehaviour
 
             if (vida <= 0)
             {
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
             }
         }
     }
