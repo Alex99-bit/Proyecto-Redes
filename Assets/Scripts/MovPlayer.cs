@@ -10,6 +10,7 @@ public class MovPlayer : NetworkBehaviour
     public float speed,secondSpawn;
     public float rotationLerpSpeed;
     public GameObject ballPrefab;
+    public int vida;
 
     /*int score1;
     int score2;
@@ -23,6 +24,7 @@ public class MovPlayer : NetworkBehaviour
     {
         Debug.Log("OnAwake");
         instance = this;
+        vida = 100;
     }
 
     void Start()
@@ -129,7 +131,12 @@ public class MovPlayer : NetworkBehaviour
         if (collision.gameObject.tag == "Spike")
         {
             Debug.Log("Spike collision " + OwnerClientId);
-            // Restar score
+            vida -= 10;
+
+            if (vida <= 0)
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 

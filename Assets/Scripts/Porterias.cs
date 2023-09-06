@@ -11,14 +11,14 @@ public class Porterias : NetworkBehaviour
         if (other.gameObject.name == "PorteriaAzul")
         {
             Debug.Log("Le metieron al azul alv");
-            coreManager.singleton.SumarScoresServerRPC(0);
+            coreManager.singleton.SumarScoresServerRPC(0,false);
             DespawnRecovery(this.gameObject);
         }
 
         if (other.gameObject.name == "PorteriaRoja")
         {
             Debug.Log("Le metieron al rojo alv");
-            coreManager.singleton.SumarScoresServerRPC(1);
+            coreManager.singleton.SumarScoresServerRPC(1,false);
             DespawnRecovery(this.gameObject);
         }
     }

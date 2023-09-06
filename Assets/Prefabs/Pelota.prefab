@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -3799614924966215149}
   - component: {fileID: 4232707923494773077}
   - component: {fileID: 4463755436705102349}
-  - component: {fileID: 7543308221154566944}
+  - component: {fileID: 4405472944595582324}
   m_Layer: 0
   m_Name: Pelota
   m_TagString: Pelota
@@ -98,7 +98,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5226711969936198897}
-  m_Material: {fileID: 13400000, guid: 22330d6da7907ad49b14a304bff18ee1, type: 2}
+  m_Material: {fileID: 13400000, guid: d6bd21c7f81866840b9a84ee2d8ee00e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -207,8 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 388b4facc475cb145b62346c83bf307d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &7543308221154566944
-BoxCollider:
+--- !u!135 &4405472944595582324
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -218,5 +218,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 5}
+  m_Radius: 1.4
   m_Center: {x: 0, y: 0, z: 0}

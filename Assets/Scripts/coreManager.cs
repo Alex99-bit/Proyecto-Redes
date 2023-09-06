@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using TMPro;
+using System;
 
 public class coreManager : NetworkBehaviour
 {
@@ -47,7 +48,7 @@ public class coreManager : NetworkBehaviour
         {
             scoreN1.Value++;
             //txtScore1.text = "Score = " + scoreN1.Value.ToString();
-         ActualizarScoreClientRPC();
+            ActualizarScoreClientRPC();
         }
         else if (OwnerClientId == 1)
         {
@@ -57,23 +58,35 @@ public class coreManager : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void SumarScoresServerRPC(int player) // 1 rojo, 0 azul
+    [ServerRpc(RequireOwnership = false)]
+    public void SumarScoresServerRPC(int player,bool spike) // 1 rojo, 0 azul
     {
         Debug.Log("Servidor _ Anoto jugador: " + player);
 
-        if (player == 0)
+        if (player == 0 && !spike)
         {
             //azul
             scoreN1.Value++;
             //txtScore1.text = "Score = " + scoreN1.Value.ToString();
             ActualizarScoreClientRPC();
         }
-        else if (player == 1)
+        else if (player == 0 && spike)
+        {
+            // azul pierde puntos
+            scoreN1.Value--;
+            ActualizarScoreClientRPC();
+        } 
+        else if (player == 1 && !spike)
         {
             //rojo
             scoreN2.Value++;
             //txtScore2.text = "Score = " + scoreN2.Value.ToString();
+            ActualizarScoreClientRPC();
+        }
+        else if (player == 1 && spike)
+        {
+            // rojo pierde puntos
+            scoreN2.Value--;
             ActualizarScoreClientRPC();
         }
     }
