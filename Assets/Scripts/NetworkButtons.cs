@@ -1,30 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Unity.Netcode;
+using System;
 
 public class NetworkButtons : MonoBehaviour
 {
-    [SerializeField]
-    GameObject btnClient, btnHost;
+    public Button hostButton, clienntButton;
 
-    private void Awake()
+    public void Start()
     {
-        btnClient = GameObject.Find("ButtonClient");
-        btnHost = GameObject.Find("ButtonHost");
+        SetUpConnection();
+    }
+
+    public void SetUpConnection()
+    {
+        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionPending;
     }
 
     public void InitHost()
     {
-        NetworkManager.Singleton.StartHost();
-        btnClient.SetActive(false);
-        btnHost.SetActive(false);
+        //NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionPending;
+
+        //NetworkManager.Singleton.StartHost();
+
+        RelayManager.singleton.CreateGame();
+    }
+
+    private void ConnectionPending(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    {
+        if (NetworkManager.Singleton.ConnectedClientsList.Count < 2)
+        {
+            response.Approved = true;
+            response.CreatePlayerObject = true;
+            Debug.Log("Conexión aprobada");
+        }
+        else
+        {
+            response.Approved = false;
+            response.Reason = "Partida llena";
+            Debug.Log("Partida llena");
+        }
+
+        Debug.Log("Revisando conexión");
     }
 
     public void InitClient()
     {
         NetworkManager.Singleton.StartClient();
-        btnClient.SetActive(false);
-        btnHost.SetActive(false);
     }
 }

@@ -6,6 +6,8 @@ public class BallScript : MonoBehaviour
 {
     public bool isTaken;
 
+    public bool isSpikes;
+
     public void TakeBall()
     {
         if (isTaken)

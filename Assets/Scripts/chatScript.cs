@@ -1,72 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
+using TMPro;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 
-public class chatScript : NetworkBehaviour
+public class ChatScript : NetworkBehaviour
 {
-    public TMP_Text chat_text;
-    public ScrollRect scroll;
-    string current;
+    public TMP_Text chatTxt;
+    string currenntText = "";
+    public GameObject scroll;
 
-    private void Awake()
+    string code;
+
+    public void OnEnable()
     {
-        current = "";
-        //chat_text = GetComponent<TMP_Text>();
+        //coreManager.singleton.eventChat += WriteTextFromServer;
     }
 
-    public void EscribirText(string newText)
+    private void OnDisable()
     {
-        /*if (!IsOwner) { return; }
+        //coreManager.singleton.eventChat -= WriteTextFromServer;
+    }
 
-        current += "\nPlayer " + OwnerClientId + ": " + newText;
-        chat_text.text = current;
+    public void IpChange(string cadena)
+    {
+        Debug.Log(cadena);
+        //NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = cadena;
+
+        //RelayManager.singleton.JoinGame(cadena);
+
+        code = cadena;
+    }
+
+    public void JoinByCode()
+    {
+        RelayManager.singleton.JoinGame(code);
+    }
+
+    private void Start()
+    {
+        WriteText("Texto inicial");
+        coreManager.singleton.eventChat += WriteTextFromServer;
+    }
+
+    public override void OnDestroy()
+    {
+        coreManager.singleton.eventChat -= WriteTextFromServer;
+    }
+
+    public void WriteText(string newText)
+    {
+        //if (!IsOwner) return;
+
+        currenntText += "\n" + "Player " + OwnerClientId + ": " + newText;
+
+        chatTxt.text = currenntText;
 
         //scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
-        scroll.verticalNormalizedPosition = 0;
 
-        coreManager.singleton.MandarTextoChatServerRpc(newText,OwnerClientId);
-        // Ensure the scroll adjustment happens in the next frame
-        //StartCoroutine(ScrollToBottom());*/
+        coreManager.singleton.MandarTextoAlChatServerRPC(newText, OwnerClientId);
 
-        if (!IsOwner) return;
-
-        current += "\n" + "Player " + OwnerClientId + ": " + newText;
-
-        chat_text.text = current;
-
-        scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
-
-        coreManager.singleton.MandarTextoChatServerRpc(newText, OwnerClientId);
+        chatTxt.text = "";
     }
 
-    public void EscribitText2(string newText, ulong player)
+    public void WriteTextFromServer(string text, ulong playerID)
     {
-        /*if (!IsOwner) { return; }
-        current += "\nPlayer " + player + ": " + newText;
-        chat_text.text = current;
-        scroll.verticalNormalizedPosition = 0;*/
-        if (!IsOwner) return;
+        //if (!IsOwner) return;
+        Debug.Log("Event chat");
 
-        current += "\n" + "Player " + OwnerClientId + ": " + newText;
+        currenntText += "\n" + "Player " + OwnerClientId + ": " + text;
 
-        chat_text.text = current;
+        chatTxt.text = currenntText;
 
-        scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+        //scroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
 
-        coreManager.singleton.MandarTextoChatServerRpc(newText, OwnerClientId);
-    }
+        //coreManager.singleton.MandarTextoAlChatServerRPC(text, OwnerClientId);
 
-    /* Test */
-    private IEnumerator ScrollToBottom()
-    {
-        yield return new WaitForEndOfFrame(); // Esperar al final del frame
-
-        // Ajustar la posición vertical del ScrollRect
-        Canvas.ForceUpdateCanvases(); // Actualizar primero las canvas
-        scroll.verticalNormalizedPosition = 0;
+        chatTxt.text = "";
     }
 }
