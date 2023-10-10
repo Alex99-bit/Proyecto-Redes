@@ -23,15 +23,15 @@ public class RelayManager : MonoBehaviour
 
     void Start()
     {
-        Autenticar();
+        //Autenticar();
     }
-
+    /* Movido a lobbieManager
     async void Autenticar()
     {
         await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         Debug.Log("Signed in as " + AuthenticationService.Instance.PlayerId);
-    }
+    }*/
 
     public async void CreateGame()
     {
